@@ -41,7 +41,7 @@ workflows:
           dockerfile: backend/Dockerfile
           image: backend
           tag: $CIRCLE_BRANCH
-          path: ~/tracks/backend
+          path: ~/project/backend
           requires:
             - lint
             - test-and-coverage
