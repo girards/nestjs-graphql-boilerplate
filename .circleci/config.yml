@@ -15,16 +15,17 @@ jobs:
       name: "node/default"
     steps:
       - checkout
+      - run: cd backend
       - node/with-cache:
           steps:
             - run: yarn run test
             - run: yarn run test:cov
   lint:
-    working_directory: ~/backend
     executor:
       name: "node/default"
     steps:
       - checkout
+      - run: cd backend
       - node/with-cache:
           steps:
             - run: yarn run lint
