@@ -41,7 +41,7 @@ workflows:
           dockerfile: backend/Dockerfile
           image: backend
           tag: $CIRCLE_BRANCH
-          path: ~/backend
+          path: ~/tracks/backend
           requires:
             - lint
             - test-and-coverage
@@ -49,3 +49,4 @@ workflows:
             branches:
               only:
                 - master
+                - new-architecture-registry
