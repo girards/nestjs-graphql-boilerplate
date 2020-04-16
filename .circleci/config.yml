@@ -10,14 +10,13 @@ executors:
       - image: "google/cloud-sdk"
 jobs:
   test-and-coverage:
-    working_directory: ~/backend
     executor:
       name: "node/default"
     steps:
       - checkout
-      - run: cd backend
       - node/with-cache:
           steps:
+            - run: cd backend
             - run: yarn run test
             - run: yarn run test:cov
   lint:
@@ -28,6 +27,7 @@ jobs:
       - run: cd backend
       - node/with-cache:
           steps:
+            - run: cd backend
             - run: yarn run lint
 workflows:
   build-test-lint:
