@@ -3,6 +3,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserRepository } from '../users/users.repository';
 import { User } from '../users/users.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
 
 export interface AuthJwtPayload {
@@ -13,7 +14,8 @@ export interface AuthJwtPayload {
 export class AuthService {
   constructor(
     private jwtService: JwtService,
-    private userRepository: UserRepository,
+    @InjectRepository(UserRepository)
+    private readonly userRepository: UserRepository,
     private readonly mailerService: MailerService
   ) { }
 
