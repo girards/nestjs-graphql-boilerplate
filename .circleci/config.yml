@@ -13,21 +13,20 @@ jobs:
     executor:
       name: "node/default"
     steps:
-      - checkout
+      - checkout:
+          path: ~/backend
       - node/with-cache:
           steps:
-            - run: cd backend
             - run: yarn run test
             - run: yarn run test:cov
   lint:
     executor:
       name: "node/default"
     steps:
-      - checkout
-      - run: cd backend
+      - checkout:
+          path: ~/backend
       - node/with-cache:
           steps:
-            - run: cd backend
             - run: yarn run lint
 workflows:
   build-test-lint:
