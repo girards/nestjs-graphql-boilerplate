@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1586945445065" clover="3.2.0">
+  <project timestamp="1586945445066" name="All files">
+    <metrics statements="44" coveredstatements="43" conditionals="8" coveredconditionals="7" methods="5" coveredmethods="5" elements="57" coveredelements="55" complexity="0" loc="44" ncloc="44" packages="4" files="5" classes="5"/>
+    <package name="auth">
+      <metrics statements="25" coveredstatements="24" conditionals="8" coveredconditionals="7" methods="4" coveredmethods="4"/>
+      <file name="auth.service.ts" path="/Users/nicolasgirardot/Developer/Projects/Personal/Tracks/tracks-backend/src/auth/auth.service.ts">
+        <metrics statements="25" coveredstatements="24" conditionals="8" coveredconditionals="7" methods="4" coveredmethods="4"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="15" count="8" type="stmt"/>
+        <line num="16" count="8" type="stmt"/>
+        <line num="17" count="8" type="stmt"/>
+        <line num="21" count="2" type="stmt"/>
+        <line num="22" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="23" count="1" type="stmt"/>
+        <line num="32" count="1" type="stmt"/>
+        <line num="33" count="1" type="stmt"/>
+        <line num="34" count="1" type="stmt"/>
+        <line num="36" count="0" type="stmt"/>
+        <line num="40" count="3" type="stmt"/>
+        <line num="41" count="3" type="cond" truecount="4" falsecount="0"/>
+        <line num="42" count="1" type="stmt"/>
+        <line num="43" count="1" type="stmt"/>
+        <line num="48" count="2" type="stmt"/>
+        <line num="53" count="2" type="stmt"/>
+        <line num="54" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="55" count="1" type="stmt"/>
+        <line num="56" count="1" type="stmt"/>
+        <line num="66" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="common">
+      <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="base.entity.ts" path="/Users/nicolasgirardot/Developer/Projects/Personal/Tracks/tracks-backend/src/common/base.entity.ts">
+        <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="users">
+      <metrics statements="11" coveredstatements="11" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="users.entity.ts" path="/Users/nicolasgirardot/Developer/Projects/Personal/Tracks/tracks-backend/src/users/users.entity.ts">
+        <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="17" count="1" type="stmt"/>
+      </file>
+      <file name="users.repository.ts" path="/Users/nicolasgirardot/Developer/Projects/Personal/Tracks/tracks-backend/src/users/users.repository.ts">
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="utils">
+      <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <file name="generator.utils.ts" path="/Users/nicolasgirardot/Developer/Projects/Personal/Tracks/tracks-backend/src/utils/generator.utils.ts">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+      </file>
+    </package>
+  </project>
+</coverage>

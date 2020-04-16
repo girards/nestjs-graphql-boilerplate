@@ -1,0 +1,13 @@
+type LoginResponse {
+  access_token: String!
+}
+
+type Mutation {
+  signup(email: String!, password: String!): Boolean
+  login(email: String!, password: String!): LoginResponse!
+  activateUser(email: String!, activationCode: String!): Boolean
+}
+
+type Query {
+  me: String!
+}

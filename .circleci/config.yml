@@ -1,0 +1,45 @@
+version: 2.1
+orbs:
+  gcp-gcr: circleci/gcp-gcr@0.6.1
+  node: circleci/node@1.1.6
+executors:
+  docker-publisher:
+    environment:
+      BACKEND_IMAGE_NAME: backend
+    docker:
+      - image: "google/cloud-sdk"
+jobs:
+  test-and-coverage:
+    executor:
+      name: "node/default"
+    steps:
+      - checkout
+      - node/with-cache:
+          steps:
+            - run: yarn run test
+            - run: yarn run test:cov
+  lint:
+    executor:
+      name: "node/default"
+    steps:
+      - checkout
+      - node/with-cache:
+          steps:
+            - run: yarn run lint
+workflows:
+  build-test-lint:
+    jobs:
+      - test-and-coverage
+      - lint
+      - gcp-gcr/build-and-push-image:
+          dockerfile: backend/Dockerfile
+          image: backend
+          tag: $CIRCLE_BRANCH
+          path: ~/backend
+          requires:
+            - lint
+            - test-and-coverage
+          filters:
+            branches:
+              only:
+                - master
