@@ -18,6 +18,7 @@ jobs:
           path: ~/tracks
       - node/with-cache:
           steps:
+            - run: yarn
             - run: yarn run test
             - run: yarn run test:cov
   lint:
@@ -29,6 +30,7 @@ jobs:
           path: ~/tracks
       - node/with-cache:
           steps:
+            - run: yarn
             - run: yarn run lint
 workflows:
   build-test-lint:
