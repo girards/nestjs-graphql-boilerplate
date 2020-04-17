@@ -45,7 +45,7 @@ jobs:
       - run:
           name: Deploy to Kubernetes
           command: |
-            kubectl apply -f ${HOME}~/tracks/deploy
+            kubectl apply -f ~/project/deploy
             kubectl rollout status deployment/tracks
 workflows:
   build-test-lint:
