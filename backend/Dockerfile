@@ -1,6 +1,6 @@
-FROM node:12.15.0-alpine
+FROM node:12-slim
 
-WORKDIR /
+WORKDIR /opt/app
 
 RUN pwd
 
