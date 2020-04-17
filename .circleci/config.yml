@@ -40,7 +40,7 @@ workflows:
       - gcp-gcr/build-and-push-image:
           dockerfile: backend/Dockerfile
           image: backend
-          tag: $CIRCLE_BRANCH
+          tag: master
           path: ~/project/backend
           requires:
             - lint
