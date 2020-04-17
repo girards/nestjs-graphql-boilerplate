@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
+import { AppController } from './app.controler';
 
 @Module({
   imports: [
@@ -36,5 +37,6 @@ import { AuthModule } from './auth/auth.module';
     }),
     AuthModule,
   ],
+  controllers: [AppController]
 })
 export class AppModule { }
