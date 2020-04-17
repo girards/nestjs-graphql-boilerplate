@@ -2,12 +2,6 @@ version: 2.1
 orbs:
   gcp-gcr: circleci/gcp-gcr@0.6.1
   node: circleci/node@1.1.6
-executors:
-  docker-publisher:
-    environment:
-      BACKEND_IMAGE_NAME: backend
-    docker:
-      - image: "google/cloud-sdk"
 jobs:
   test-and-coverage:
     working_directory: ~/tracks/backend
@@ -32,6 +26,27 @@ jobs:
           steps:
             - run: yarn
             - run: yarn run lint
+  deploy_to_staging:
+    docker:
+      - image: google/cloud-sdk
+    steps:
+      - checkout
+      - run:
+          name: Setup Google Cloud SDK
+          command: |
+            echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
+
+            # Initialize gcloud CLI
+            gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
+            gcloud --quiet config set project $GOOGLE_PROJECT_ID
+            gcloud --quiet config set compute/zone $GOOGLE_COMPUTE_ZONE
+            gcloud --quiet container clusters get-credentials $GOOGLE_CLUSTER_NAME
+      - setup_remote_docker
+      - run:
+          name: Deploy to Kubernetes
+          command: |
+            kubectl apply -f ~/project/deploy
+            kubectl rollout status deployment/tracks
 workflows:
   build-test-lint:
     jobs:
@@ -40,11 +55,18 @@ workflows:
       - gcp-gcr/build-and-push-image:
           dockerfile: backend/Dockerfile
           image: backend
-          tag: $CIRCLE_BRANCH
+          tag: master
           path: ~/project/backend
           requires:
             - lint
             - test-and-coverage
+          filters:
+            branches:
+              only:
+                - master
+      - deploy_to_staging:
+          requires:
+            - gcp-gcr/build-and-push-image
           filters:
             branches:
               only:
