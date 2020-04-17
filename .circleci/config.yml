@@ -62,6 +62,7 @@ workflows:
             branches:
               only:
                 - master
+                - auto-deploy-gke
       - deploy_to_staging:
           requires:
             - gcp-gcr/build-and-push-image
@@ -69,3 +70,4 @@ workflows:
             branches:
               only:
                 - master
+                - auto-deploy-gke
