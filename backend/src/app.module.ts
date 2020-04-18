@@ -1,9 +1,11 @@
 import { HandlebarsAdapter, MailerModule } from '@nestjs-modules/mailer';
 import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthModule } from './auth/auth.module';
 import { AppController } from './app.controler';
+import { AuthModule } from './auth/auth.module';
+
 
 @Module({
   imports: [
@@ -25,15 +27,25 @@ import { AppController } from './app.controler';
         },
       },
     }),
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: '10.3.247.204',
-      port: 5432,
-      username: 'nicolasgirardot',
-      password: '',
-      database: 'tracks',
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true,
+    ConfigModule.forRoot({
+      ignoreEnvFile: true,
+      isGlobal: true,
+    }),
+    TypeOrmModule.forRootAsync({
+      useFactory: (configService: ConfigService) => ({
+        type: 'postgres',
+        host: configService.get<string>('DATABASE_URL') || "localhost",
+        port: 5432,
+        username: 'nicolasgirardot',
+        password: '',
+        database: 'tracks',
+        entities: [__dirname + '/**/*.entity{.ts,.js}'],
+        synchronize: true
+      }),
+      inject: [ConfigService]
+    }),
+    ConfigModule.forRoot({
+      ignoreEnvFile: true,
     }),
     AuthModule,
   ],
