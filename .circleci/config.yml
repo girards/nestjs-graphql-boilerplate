@@ -45,11 +45,11 @@ jobs:
             gcloud --quiet --verbosity=none compute disks create ${CIRCLE_BRANCH}-pg-data-disk --size 5GB --zone europe-west1-b || echo "disk creation fail"
       - setup_remote_docker
       - helm/install-helm-client:
-          version: v3.0.0
-      - helm/install-helm-chart:
-          chart: ~/project/helm
-          release-name: ${CIRCLE_BRANCH}
-          namespace: ${CIRCLE_BRANCH}
+          version: v3.2.0-rc.1
+      - run:
+          name: Helm Release
+          command: |
+            helm upgrade ${CIRCLE_BRANCH} ~/project/helm --namespace=${CIRCLE_BRANCH} || helm install ${CIRCLE_BRANCH} ~/project/helm --namespace=${CIRCLE_BRANCH} --create-namespace
 
 workflows:
   build-test-lint:
