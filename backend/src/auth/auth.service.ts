@@ -1,10 +1,9 @@
-import { MailerService } from '@nestjs-modules/mailer';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserRepository } from '../users/users.repository';
 import { User } from '../users/users.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-
+import { MailerService } from '@nestjs-modules/mailer';
 
 export interface AuthJwtPayload {
   id: string;
@@ -16,12 +15,13 @@ export class AuthService {
     private jwtService: JwtService,
     @InjectRepository(UserRepository)
     private readonly userRepository: UserRepository,
-    private readonly mailerService: MailerService
+    private readonly mailerService: MailerService,
   ) { }
 
   async activateUser(email: string, code: string): Promise<User> {
     const user = await this.userRepository.findOneOrFail({ where: { email } });
     if (user.activationCode === code) {
+      try {
       await this
         .mailerService
         .sendMail({
@@ -31,6 +31,9 @@ export class AuthService {
           text: 'User Validated', // plaintext body
           html: '<b>User Validated</b>', // HTML body content
         })
+      } catch (err) {
+        console.log("Omitting error cause we don't care for now");
+      }
       user.activated = true;
       await this.userRepository.save(user);
       return user;
@@ -55,6 +58,7 @@ export class AuthService {
     const isEmailAlreadyUsed = Boolean(await this.userRepository.findOne({ where: { email } }));
     if (!isEmailAlreadyUsed) {
       await this.userRepository.create({ email, password }).save();
+      try {
       await this
         .mailerService
         .sendMail({
@@ -64,6 +68,9 @@ export class AuthService {
           text: 'welcome', // plaintext body
           html: '<b>welcome</b>', // HTML body content
         })
+      } catch (err) {
+        console.log("Omitting error cause we don't care for now");
+      }
     } else {
       throw new BadRequestException('signup.error.email_already_used');
     }
