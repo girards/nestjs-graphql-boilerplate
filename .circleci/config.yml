@@ -42,7 +42,7 @@ jobs:
             gcloud --quiet config set project $GOOGLE_PROJECT_ID
             gcloud --quiet config set compute/zone $GOOGLE_COMPUTE_ZONE
             gcloud --quiet container clusters get-credentials $GOOGLE_CLUSTER_NAME
-            gcloud --quiet --verbosity=none compute disks create ${CIRCLE_BRANCH}-pg-data-disk --size 5GB --zone europe-west1-b
+            gcloud --quiet --verbosity=none compute disks create ${CIRCLE_BRANCH}-pg-data-disk --size 5GB --zone europe-west1-b || echo "disk creation fail"
       - setup_remote_docker
       - helm/install-helm-chart:
           chart: ~/project/helm
