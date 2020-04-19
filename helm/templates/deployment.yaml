@@ -7,6 +7,8 @@ metadata:
   name: {{$appName}}-{{.Release.Name}}-api
   labels:
     {{- include "helm.labels" . | nindent 4 }}
+  annotations:
+    timestamp: "{{ date "20060102150405" .Release.Time }}"
 spec:
   selector:
     matchLabels:
