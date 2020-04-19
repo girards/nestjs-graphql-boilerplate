@@ -1,0 +1,36 @@
+{{- $appName := include "helm.appName" . -}}
+{{- $releaseName := .Release.Name -}}
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: {{$appName}}-{{.Release.Name}}-api
+  labels:
+    {{- include "helm.labels" . | nindent 4 }}
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: {{$appName}}-{{.Release.Name}}
+      tier: api
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: {{$appName}}-{{.Release.Name}}
+        tier: api
+        helm-revision: "{{ .Release.Revision }}"
+    spec:
+      containers:
+        - image: gcr.io/tracks-274321/backend:{{.Release.Name}}
+          name: api
+          imagePullPolicy: Always
+          env:
+            - name: DATABASE_URL
+              value: {{$appName}}-{{$releaseName}}-postgres-service
+            - name: BRANCH
+              value: {{$releaseName}}
+          ports:
+            - containerPort: 3000
+              name: api-deploy
