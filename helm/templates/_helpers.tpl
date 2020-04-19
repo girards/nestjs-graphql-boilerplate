@@ -7,7 +7,7 @@ Expand the name of the chart.
 {{- end -}}
 
 {{- define "helm.appName" -}}
-{{- "track" -}}
+{{- "tracks" -}}
 {{- end -}}
 
 {{/*
