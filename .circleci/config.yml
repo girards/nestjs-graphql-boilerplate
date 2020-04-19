@@ -2,6 +2,7 @@ version: 2.1
 orbs:
   gcp-gcr: circleci/gcp-gcr@0.6.1
   node: circleci/node@1.1.6
+  helm: circleci/helm@0.2.3
 jobs:
   test-and-coverage:
     working_directory: ~/tracks/backend
@@ -26,7 +27,7 @@ jobs:
           steps:
             - run: yarn
             - run: yarn run lint
-  deploy_to_staging:
+  deploy:
     docker:
       - image: google/cloud-sdk
     steps:
@@ -41,12 +42,13 @@ jobs:
             gcloud --quiet config set project $GOOGLE_PROJECT_ID
             gcloud --quiet config set compute/zone $GOOGLE_COMPUTE_ZONE
             gcloud --quiet container clusters get-credentials $GOOGLE_CLUSTER_NAME
+            gcloud --quiet --verbosity=none compute disks create ${CIRCLE_BRANCH}-pg-data-disk --size 5GB --zone europe-west1-b
       - setup_remote_docker
-      - run:
-          name: Deploy to Kubernetes
-          command: |
-            kubectl apply -f ~/project/deploy
-            kubectl rollout status deployment/tracks
+      - helm/install-helm-chart:
+          chart: ~/project/helm
+          release-name: ${CIRCLE_BRANCH}
+          namespace: ${CIRCLE_BRANCH}
+
 workflows:
   build-test-lint:
     jobs:
@@ -55,19 +57,11 @@ workflows:
       - gcp-gcr/build-and-push-image:
           dockerfile: backend/Dockerfile
           image: backend
-          tag: master
+          tag: ${CIRCLE_BRANCH}
           path: ~/project/backend
           requires:
             - lint
             - test-and-coverage
-          filters:
-            branches:
-              only:
-                - master
       - deploy_to_staging:
           requires:
             - gcp-gcr/build-and-push-image
-          filters:
-            branches:
-              only:
-                - master

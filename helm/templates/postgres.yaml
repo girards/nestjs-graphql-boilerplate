@@ -1,13 +1,16 @@
+{{- $appName := include "helm.appName" . -}}
+{{- $releaseName := .Release.Name -}}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: postgres
+  name: {{$appName}}-{{$releaseName}}-postgres-service
   labels:
-    service: postgres
+    app: {{$appName}}-{{$releaseName}}
+    service: {{$appName}}-{{$releaseName}}-postgres
 spec:
   selector:
-    service: postgres
+    service: {{$appName}}-{{$releaseName}}-postgres
   type: ClusterIP
   ports:
     - port: 5432
@@ -15,9 +18,9 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: postgres-pv
+  name: {{$appName}}-{{$releaseName}}-postgres-pv
   labels:
-    name: postgres-pv
+    name: {{$appName}}-{{$releaseName}}-postgres-pv
 spec:
   capacity:
     storage: 50Gi
@@ -25,13 +28,13 @@ spec:
   accessModes:
     - ReadWriteOnce
   gcePersistentDisk:
-    pdName: pg-data-disk
+    pdName: {{$appName}}-{{$releaseName}}-pg-data-disk
     fsType: ext4
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: postgres-pvc
+  name: {{$appName}}-{{$releaseName}}-postgres-pvc
   labels:
     type: local
 spec:
@@ -40,20 +43,20 @@ spec:
   resources:
     requests:
       storage: 50Gi
-  volumeName: postgres-pv
+  volumeName: {{$appName}}-{{$releaseName}}-postgres-pv
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: postgres
+  name: {{$appName}}-{{$releaseName}}-postgres
   labels:
-    name: database
+    name: {{$appName}}-{{$releaseName}}-database
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        service: postgres
+        service: {{$appName}}-{{$releaseName}}-postgres
     spec:
       containers:
         - name: postgres
@@ -71,4 +74,4 @@ spec:
       volumes:
         - name: postgres-volume-mount
           persistentVolumeClaim:
-            claimName: postgres-pvc
+            claimName: {{$appName}}-{{$releaseName}}-postgres-pvc

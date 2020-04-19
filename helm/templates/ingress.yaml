@@ -1,0 +1,9 @@
+{{- $appName := include "helm.appName" . -}}
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: {{$appName}}-{{.Release.Name}}-api-ingress
+spec:
+  backend:
+    serviceName: {{$appName}}-{{.Release.Name}}-api-service
+    servicePort: 80
