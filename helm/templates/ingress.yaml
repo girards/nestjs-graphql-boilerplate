@@ -4,6 +4,11 @@ kind: Ingress
 metadata:
   name: {{$appName}}-{{.Release.Name}}-api-ingress
 spec:
-  backend:
-    serviceName: {{$appName}}-{{.Release.Name}}-api-service
-    servicePort: 80
+  rules:
+  - host: api.{{.Release.Name}}.tracks.social
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: {{$appName}}-{{.Release.Name}}-api-service
+          servicePort: 80
