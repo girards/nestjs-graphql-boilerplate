@@ -7,9 +7,8 @@ metadata:
   name: {{$appName}}-{{.Release.Name}}-api
   labels:
     {{- include "helm.labels" . | nindent 4 }}
-  annotations:
-    timestamp: "{{ date "20060102150405" .Release.Time }}"
 spec:
+  replicas: 2
   selector:
     matchLabels:
       app: {{$appName}}-{{.Release.Name}}
@@ -21,6 +20,7 @@ spec:
       labels:
         app: {{$appName}}-{{.Release.Name}}
         tier: api
+        helm-revision: "{{ .Release.Revision }}"
     spec:
       containers:
         - image: gcr.io/tracks-274321/backend:{{.Release.Name}}

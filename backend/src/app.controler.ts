@@ -10,7 +10,7 @@ export class AppController {
 
   @Get()
   healthz(@Res() res: Response): void {
-    res.json({ currentBranch: this.configService.get<string>('BRANCH') || "localhost" });
+    res.json({ branchName: this.configService.get<string>('BRANCH') || "localhost" });
 
   }
 }
