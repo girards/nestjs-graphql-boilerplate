@@ -62,6 +62,6 @@ workflows:
           requires:
             - lint
             - test-and-coverage
-      - deploy_to_staging:
+      - deploy:
           requires:
             - gcp-gcr/build-and-push-image
