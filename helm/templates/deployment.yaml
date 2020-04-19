@@ -27,6 +27,8 @@ spec:
           env:
             - name: DATABASE_URL
               value: {{$appName}}-{{$releaseName}}-postgres-service
+            - name: BRANCH
+              value: {{$releaseName}}
           ports:
             - containerPort: 3000
               name: api-deploy
