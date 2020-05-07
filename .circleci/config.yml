@@ -88,4 +88,4 @@ workflows:
           tag: ${CIRCLE_BRANCH}
           path: ~/project/backend
           requires:
-            - lint-frontend
+            - test-frontend
