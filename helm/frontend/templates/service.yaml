@@ -1,0 +1,16 @@
+{{- $appName := include "helm.appName" . -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{$appName}}-{{.Release.Name}}-frontend-service
+  labels:
+    app: {{$appName}}-{{.Release.Name}}
+spec:
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 4000
+  selector:
+    app: {{$appName}}-{{.Release.Name}}
+    tier: frontend

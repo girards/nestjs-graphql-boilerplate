@@ -1,0 +1,31 @@
+{{- $appName := include "helm.appName" . -}}
+{{- $releaseName := .Release.Name -}}
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: {{$appName}}-{{.Release.Name}}-frontend
+  labels:
+    {{- include "helm.labels" . | nindent 4 }}
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: {{$appName}}-{{.Release.Name}}
+      tier: frontend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: {{$appName}}-{{.Release.Name}}
+        tier: frontend
+        helm-revision: "{{ .Release.Revision }}"
+    spec:
+      containers:
+        - image: gcr.io/tracks-274321/frontend:{{.Release.Name}}
+          name: frontend
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 4000
+              name: frontend-deploy
