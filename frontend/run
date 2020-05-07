@@ -26,4 +26,4 @@ echo "===> Building ..."
 yarn run build --production
 
 echo "===> Running ... "
-exec serve -s build
+exec serve -l 4000 -s build

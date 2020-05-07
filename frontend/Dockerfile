@@ -9,4 +9,5 @@ RUN yarn install
 
 
 EXPOSE 4000
-CMD [ "/usr/src/frontend/run" ]
+RUN ["chmod", "+x", "./run"]
+CMD [ "./run" ]
