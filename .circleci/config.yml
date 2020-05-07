@@ -84,8 +84,8 @@ workflows:
       - test-frontend
       - gcp-gcr/build-and-push-image:
           dockerfile: frontend/Dockerfile
-          image: frontend/Dockerfile
+          image: frontend
           tag: ${CIRCLE_BRANCH}
-          path: ~/project/backend
+          path: ~/project/frontend
           requires:
             - test-frontend
