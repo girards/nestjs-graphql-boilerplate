@@ -61,7 +61,7 @@ jobs:
       - run:
           name: Helm Release
           command: |
-            helm upgrade ${CIRCLE_BRANCH} ~/project/helm/backend --namespace=${CIRCLE_BRANCH} || helm install ${CIRCLE_BRANCH} ~/project/helm/backend --namespace=${CIRCLE_BRANCH} --create-namespace
+            helm upgrade ${CIRCLE_BRANCH} ~/project/helm/ --namespace=${CIRCLE_BRANCH} || helm install ${CIRCLE_BRANCH} ~/project/helm/ --namespace=${CIRCLE_BRANCH} --create-namespace
 
 workflows:
   deploy:
