@@ -17,5 +17,6 @@ export interface IMutation {
 }
 
 export interface IQuery {
+    branch(): string | Promise<string>;
     me(): string | Promise<string>;
 }
