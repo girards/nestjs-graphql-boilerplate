@@ -2,12 +2,11 @@ FROM node:12-slim
 
 WORKDIR /opt/frontend
 
-RUN pwd
-
+RUN yarn global add serve
 COPY . .
 
 RUN yarn install
 
 
 EXPOSE 4000
-CMD [ "yarn", "start" ]
+CMD [ "/opt/frontend/run" ]

@@ -39,7 +39,7 @@ jobs:
           steps:
             - run: yarn
             - run: yarn run lint
-  deploy-backend:
+  deploy:
     docker:
       - image: google/cloud-sdk
     steps:
@@ -59,37 +59,16 @@ jobs:
       - helm/install-helm-client:
           version: v3.2.0-rc.1
       - run:
-          name: Helm Release backend
+          name: Helm Release
           command: |
             helm upgrade ${CIRCLE_BRANCH} ~/project/helm/backend --namespace=${CIRCLE_BRANCH} || helm install ${CIRCLE_BRANCH} ~/project/helm/backend --namespace=${CIRCLE_BRANCH} --create-namespace
-  deploy-frontend:
-    docker:
-      - image: google/cloud-sdk
-    steps:
-      - checkout
-      - run:
-          name: Setup Google Cloud SDK
-          command: |
-            echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
-
-            # Initialize gcloud CLI
-            gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
-            gcloud --quiet config set project $GOOGLE_PROJECT_ID
-            gcloud --quiet config set compute/zone $GOOGLE_COMPUTE_ZONE
-            gcloud --quiet container clusters get-credentials $GOOGLE_CLUSTER_NAME
-      - setup_remote_docker
-      - helm/install-helm-client:
-          version: v3.2.0-rc.1
-      - run:
-          name: Helm Release frontend
-          command: |
-            helm upgrade ${CIRCLE_BRANCH} ~/project/helm/frontend --namespace=${CIRCLE_BRANCH} || helm install ${CIRCLE_BRANCH} ~/project/helm/frontend --namespace=${CIRCLE_BRANCH} --create-namespace
 
 workflows:
-  deploy-backend:
+  deploy:
     jobs:
       - test-and-coverage-backend
       - lint-backend
+      - test-frontend
       - gcp-gcr/build-and-push-image:
           dockerfile: backend/Dockerfile
           image: backend
@@ -98,12 +77,6 @@ workflows:
           requires:
             - test-and-coverage-backend
             - lint-backend
-      - deploy-backend:
-          requires:
-            - gcp-gcr/build-and-push-image
-  deploy-frontend:
-    jobs:
-      - test-frontend
       - gcp-gcr/build-and-push-image:
           dockerfile: frontend/Dockerfile
           image: frontend
@@ -111,6 +84,6 @@ workflows:
           path: ~/project/frontend
           requires:
             - test-frontend
-      - deploy-frontend:
+      - deploy:
           requires:
             - gcp-gcr/build-and-push-image
