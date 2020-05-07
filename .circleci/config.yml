@@ -8,6 +8,7 @@ jobs:
     working_directory: ~/tracks/backend
     executor:
       name: "node/default"
+    resource_class: small
     steps:
       - checkout:
           path: ~/tracks
@@ -20,6 +21,7 @@ jobs:
     working_directory: ~/tracks/frontend
     executor:
       name: "node/default"
+    resource_class: small
     steps:
       - checkout:
           path: ~/tracks
@@ -32,6 +34,7 @@ jobs:
     working_directory: ~/tracks/backend
     executor:
       name: "node/default"
+    resource_class: small
     steps:
       - checkout:
           path: ~/tracks
@@ -42,6 +45,7 @@ jobs:
   deploy:
     docker:
       - image: google/cloud-sdk
+    resource_class: small
     steps:
       - checkout
       - run:
