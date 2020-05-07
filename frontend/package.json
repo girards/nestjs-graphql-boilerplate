@@ -21,7 +21,7 @@
   "scripts": {
     "start": "PORT=4000 react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --passWithNoTests",
     "eject": "react-scripts eject",
     "generate-gql-types": "npx apollo@2.21.2 schema:download --endpoint=http://localhost:3000/graphql src/graphql-schema.json",
     "postgenerate-gql-types": "rm -rf ./src/context/**/types/** && npx apollo@2.21.2 codegen:generate --localSchemaFile=src/graphql-schema.json --target=typescript --includes=src/**/queries.ts --tagName=gql --customScalarsPrefix=GQL --addTypename --globalTypesFile=src/types/graphql-global-types.ts types"
