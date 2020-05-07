@@ -70,6 +70,7 @@ workflows:
       - lint-backend
       - test-frontend
       - gcp-gcr/build-and-push-image:
+          name: build-and-push-backend
           dockerfile: backend/Dockerfile
           image: backend
           tag: ${CIRCLE_BRANCH}
@@ -78,6 +79,7 @@ workflows:
             - test-and-coverage-backend
             - lint-backend
       - gcp-gcr/build-and-push-image:
+          name: build-and-push-frontend
           dockerfile: frontend/Dockerfile
           image: frontend
           tag: ${CIRCLE_BRANCH}
@@ -86,4 +88,5 @@ workflows:
             - test-frontend
       - deploy:
           requires:
-            - gcp-gcr/build-and-push-image
+            - build-and-push-backend
+            - build-and-push-frontend
