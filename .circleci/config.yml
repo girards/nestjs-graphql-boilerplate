@@ -4,7 +4,7 @@ orbs:
   node: circleci/node@1.1.6
   helm: circleci/helm@0.2.3
 jobs:
-  test-and-coverage:
+  test-and-coverage-backend:
     working_directory: ~/tracks/backend
     executor:
       name: "node/default"
@@ -16,7 +16,19 @@ jobs:
             - run: yarn
             - run: yarn run test
             - run: yarn run test:cov
-  lint:
+  test-frontend:
+    working_directory: ~/tracks/frontend
+    executor:
+      name: "node/default"
+    steps:
+      - checkout:
+          path: ~/tracks
+      - node/with-cache:
+          steps:
+            - run: yarn
+            - run: yarn run test
+
+  lint-backend:
     working_directory: ~/tracks/backend
     executor:
       name: "node/default"
@@ -27,7 +39,7 @@ jobs:
           steps:
             - run: yarn
             - run: yarn run lint
-  deploy:
+  deploy-backend:
     docker:
       - image: google/cloud-sdk
     steps:
@@ -52,18 +64,28 @@ jobs:
             helm upgrade ${CIRCLE_BRANCH} ~/project/helm --namespace=${CIRCLE_BRANCH} || helm install ${CIRCLE_BRANCH} ~/project/helm --namespace=${CIRCLE_BRANCH} --create-namespace
 
 workflows:
-  build-test-lint:
+  deploy-backend:
     jobs:
-      - test-and-coverage
-      - lint
+      - test-and-coverage-backend
+      - lint-backend
       - gcp-gcr/build-and-push-image:
           dockerfile: backend/Dockerfile
           image: backend
           tag: ${CIRCLE_BRANCH}
           path: ~/project/backend
           requires:
-            - lint
-            - test-and-coverage
-      - deploy:
+            - test-and-coverage-backend
+            - lint-backend
+      - deploy-backend:
           requires:
             - gcp-gcr/build-and-push-image
+  deploy-frontend:
+    jobs:
+      - test-frontend
+      - gcp-gcr/build-and-push-image:
+          dockerfile: frontend/Dockerfile
+          image: frontend/Dockerfile
+          tag: ${CIRCLE_BRANCH}
+          path: ~/project/backend
+          requires:
+            - lint-frontend
