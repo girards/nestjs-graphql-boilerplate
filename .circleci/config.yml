@@ -4,7 +4,7 @@ orbs:
   node: circleci/node@1.1.6
   helm: circleci/helm@0.2.3
 jobs:
-  test-and-coverage:
+  test-and-coverage-backend:
     working_directory: ~/tracks/backend
     executor:
       name: "node/default"
@@ -16,7 +16,19 @@ jobs:
             - run: yarn
             - run: yarn run test
             - run: yarn run test:cov
-  lint:
+  test-frontend:
+    working_directory: ~/tracks/frontend
+    executor:
+      name: "node/default"
+    steps:
+      - checkout:
+          path: ~/tracks
+      - node/with-cache:
+          steps:
+            - run: yarn
+            - run: yarn run test
+
+  lint-backend:
     working_directory: ~/tracks/backend
     executor:
       name: "node/default"
@@ -49,21 +61,32 @@ jobs:
       - run:
           name: Helm Release
           command: |
-            helm upgrade ${CIRCLE_BRANCH} ~/project/helm --namespace=${CIRCLE_BRANCH} || helm install ${CIRCLE_BRANCH} ~/project/helm --namespace=${CIRCLE_BRANCH} --create-namespace
+            helm upgrade ${CIRCLE_BRANCH} ~/project/helm/ --namespace=${CIRCLE_BRANCH} || helm install ${CIRCLE_BRANCH} ~/project/helm/ --namespace=${CIRCLE_BRANCH} --create-namespace
 
 workflows:
-  build-test-lint:
+  deploy:
     jobs:
-      - test-and-coverage
-      - lint
+      - test-and-coverage-backend
+      - lint-backend
+      - test-frontend
       - gcp-gcr/build-and-push-image:
+          name: build-and-push-backend
           dockerfile: backend/Dockerfile
           image: backend
           tag: ${CIRCLE_BRANCH}
           path: ~/project/backend
           requires:
-            - lint
-            - test-and-coverage
+            - test-and-coverage-backend
+            - lint-backend
+      - gcp-gcr/build-and-push-image:
+          name: build-and-push-frontend
+          dockerfile: frontend/Dockerfile
+          image: frontend
+          tag: ${CIRCLE_BRANCH}
+          path: ~/project/frontend
+          requires:
+            - test-frontend
       - deploy:
           requires:
-            - gcp-gcr/build-and-push-image
+            - build-and-push-backend
+            - build-and-push-frontend

@@ -1,6 +1,6 @@
 FROM node:12-slim
 
-WORKDIR /opt/app
+WORKDIR /opt/backend
 
 RUN pwd
 
