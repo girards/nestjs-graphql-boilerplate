@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@apollo/client": "^3.0.0-beta.43",
+    "@apollo/link-error": "^2.0.0-beta.3",
     "@apollo/react-hooks": "^3.1.5",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -11,10 +13,15 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
+    "@types/react-router-dom": "^5.1.5",
     "apollo-boost": "^0.4.7",
+    "apollo-link-batch-http": "^1.2.14",
+    "apollo-link-context": "^1.0.20",
     "graphql": "^15.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-hook-form": "^5.6.3",
+    "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
     "typescript": "~3.7.2"
   },
@@ -24,7 +31,7 @@
     "test": "react-scripts test --passWithNoTests",
     "eject": "react-scripts eject",
     "generate-gql-types": "npx apollo@2.21.2 schema:download --endpoint=http://localhost:3000/graphql src/graphql-schema.json",
-    "postgenerate-gql-types": "rm -rf ./src/context/**/types/** && npx apollo@2.21.2 codegen:generate --localSchemaFile=src/graphql-schema.json --target=typescript --includes=src/**/queries.ts --tagName=gql --customScalarsPrefix=GQL --addTypename --globalTypesFile=src/types/graphql-global-types.ts types"
+    "postgenerate-gql-types": "rm -rf ./src/**/context/types/** && npx apollo@2.21.2 codegen:generate --localSchemaFile=src/graphql-schema.json --target=typescript --includes=src/**/queries.ts --tagName=gql --customScalarsPrefix=GQL --addTypename --globalTypesFile=src/types/graphql-global-types.ts types"
   },
   "eslintConfig": {
     "extends": "react-app"
