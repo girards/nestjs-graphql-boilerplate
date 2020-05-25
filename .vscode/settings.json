@@ -9,4 +9,8 @@
   "npm.packageManager": "yarn",
   "typescript.tsdk": "node_modules/typescript/lib",
   "insertSpaceAfterOpeningAndBeforeClosingEmptyBraces": true,
+  "eslint.workingDirectories": [
+    "./src/backend",
+    "./src/frontend"
+  ]
 }

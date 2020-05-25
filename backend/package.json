@@ -91,6 +91,16 @@
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
+    "collectCoverageFrom": [
+      "src/**/*.ts",
+      "!src/**/*.decorator.ts",
+      "!src/**/*.guard.ts",
+      "!src/**/*.strategy.ts",
+      "!src/**/*.interceptor.ts",
+      "!src/**/*.resolver.ts",
+      "!src/**/*.module.ts",
+      "!src/main.ts"
+    ],
     "coverageDirectory": "./coverage",
     "testEnvironment": "node"
   }
