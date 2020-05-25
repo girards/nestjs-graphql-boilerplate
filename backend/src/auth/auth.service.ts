@@ -21,19 +21,15 @@ export class AuthService {
   async activateUser(email: string, code: string): Promise<User> {
     const user = await this.userRepository.findOneOrFail({ where: { email } });
     if (user.activationCode === code) {
-      try {
-        await this
-          .mailerService
-          .sendMail({
-            to: email, // list of receivers
-            from: 'noreply@lokal.com', // sender address
-            subject: 'User Validated', // Subject line
-            text: 'User Validated', // plaintext body
-            html: '<b>User Validated</b>', // HTML body content
-          })
-      } catch (err) {
-        console.log("Omitting error cause we don't care for now");
-      }
+      await this
+        .mailerService
+        .sendMail({
+          to: email, // list of receivers
+          from: 'noreply@lokal.com', // sender address
+          subject: 'User Validated', // Subject line
+          text: 'User Validated', // plaintext body
+          html: '<b>User Validated</b>', // HTML body content
+        })
       user.activated = true;
       await this.userRepository.save(user);
       return user;
@@ -61,19 +57,15 @@ export class AuthService {
     const isEmailAlreadyUsed = Boolean(await this.userRepository.findOne({ where: { email } }));
     if (!isEmailAlreadyUsed) {
       await this.userRepository.create({ email, password }).save();
-      try {
-        await this
-          .mailerService
-          .sendMail({
-            to: email, // list of receivers
-            from: 'noreply@lokal.com', // sender address
-            subject: 'Testing Nest MailerModule ✔', // Subject line
-            text: 'welcome', // plaintext body
-            html: '<b>welcome</b>', // HTML body content
-          })
-      } catch (err) {
-        console.log("Omitting error cause we don't care for now");
-      }
+      await this
+        .mailerService
+        .sendMail({
+          to: email, // list of receivers
+          from: 'noreply@lokal.com', // sender address
+          subject: 'Testing Nest MailerModule ✔', // Subject line
+          text: 'welcome', // plaintext body
+          html: '<b>welcome</b>', // HTML body content
+        })
     } else {
       throw new BadRequestException('signup.error.email_already_used');
     }

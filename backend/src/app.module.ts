@@ -38,7 +38,7 @@ import { AppResolver } from './app.resolver';
         host: configService.get<string>('DATABASE_URL') || "localhost",
         port: 5432,
         username: 'nicolasgirardot',
-        password: '',
+        password: 'root',
         database: 'tracks',
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
         synchronize: true
