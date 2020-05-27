@@ -1,22 +1,22 @@
 module.exports = {
   extends: [
-    "plugin:@typescript-eslint/recommended", // Uses the recommended rules from the @typescript-eslint/eslint-plugin
-    "prettier/@typescript-eslint", // Uses eslint-config-prettier to disable ESLint rules from @typescript-eslint/eslint-plugin that would conflict with prettier
-    "plugin:import/typescript",
-    "plugin:sonarjs/recommended",
+    "plugin:prettier/recommended",
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
   ],
-  parser: "@typescript-eslint/parser",
   parserOptions: {
     project: './tsconfig.json',
     tsconfigRootDir: __dirname,
-    ecmaVersion: 2018, // Allows for the parsing of modern ECMAScript features
-    sourceType: "module", // Allows for the use of imports
   },
+  parser: '@typescript-eslint/parser',
+  plugins: [
+    '@typescript-eslint',
+  ],
+  ignorePatterns: ["**/graphql.ts"],
   rules: {
-
     "@typescript-eslint/no-parameter-properties": "off",
     "@typescript-eslint/explicit-function-return-type": "error",
-    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
     "@typescript-eslint/explicit-member-accessibility": [
       "error",
       {
@@ -30,7 +30,7 @@ module.exports = {
         },
       },
     ],
-    "no-param-reassign": "error",
+    "no-param-reassign": "error"
   },
   overrides: [
     {
@@ -57,8 +57,7 @@ module.exports = {
         "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/no-unused-vars": "off",
         "@typescript-eslint/no-empty-function": "off",
-        "sonarjs/no-duplicate-string": "off",
-        "sonarjs/no-hardcoded-credentials": "off"
+        "sonarjs/no-duplicate-string": "off"
       },
     },
     {

@@ -1,6 +1,6 @@
-import { Column, Entity } from 'typeorm';
-import { BaseEntity } from '../common/base.entity';
-import { generate6CharacterCode } from '../utils/generator.utils';
+import { Column, Entity } from "typeorm";
+import { BaseEntity } from "../common/base.entity";
+import { generate6CharacterCode } from "../utils/generator.utils";
 
 @Entity()
 export class User extends BaseEntity {

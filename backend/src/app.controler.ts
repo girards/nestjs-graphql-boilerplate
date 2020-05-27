@@ -2,14 +2,14 @@ import { Get, Controller, Res } from "@nestjs/common";
 import { Response } from "express";
 import { ConfigService } from "@nestjs/config";
 
-@Controller('')
+@Controller("")
 export class AppController {
-  constructor(private readonly configService: ConfigService) {
-
-  }
+  constructor(private readonly configService: ConfigService) {}
 
   @Get()
   healthz(@Res() res: Response): void {
-    res.json({ branchName: this.configService.get<string>('BRANCH') || "localhost" });
+    res.json({
+      branchName: this.configService.get<string>("BRANCH") || "localhost",
+    });
   }
 }

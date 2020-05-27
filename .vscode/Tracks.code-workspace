@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "../backend"
+		},
+
+		{
+			"path": "../frontend"
+		},
+
+		{
+			"path": "../helm"
+		}
+	],
+	"settings": {
+		"typescript.tsdk": "node_modules/typescript/lib",
+		"eslint.debug": true
+	}
+}
