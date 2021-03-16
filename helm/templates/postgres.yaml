@@ -45,7 +45,7 @@ spec:
       storage: 50Gi
   volumeName: {{$appName}}-{{$releaseName}}-postgres-pv
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{$appName}}-{{$releaseName}}-postgres
@@ -53,6 +53,9 @@ metadata:
     name: {{$appName}}-{{$releaseName}}-database
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      service: {{$appName}}-{{$releaseName}}-postgres
   template:
     metadata:
       labels:
